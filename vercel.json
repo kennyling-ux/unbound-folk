@@ -2,8 +2,8 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "www.unboundfolk.store" }],
-      "destination": "https://unboundfolk.store/$1",
+      "has": [{ "type": "host", "value": "www.unboundfolk.com" }],
+      "destination": "https://unboundfolk.com/$1",
       "permanent": true
     }
   ],

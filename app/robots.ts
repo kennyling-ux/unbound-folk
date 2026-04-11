@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/api/",
     },
-    sitemap: "https://unboundfolk.store/sitemap.xml",
-    host: "https://unboundfolk.store",
+    sitemap: "https://unboundfolk.com/sitemap.xml",
+    host: "https://unboundfolk.com",
   };
 }

@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Link",
-            value: '<https://unboundfolk.store>; rel="canonical"',
+            value: '<https://unboundfolk.com>; rel="canonical"',
           },
         ],
       },

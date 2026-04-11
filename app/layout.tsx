@@ -18,7 +18,7 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
-const CANONICAL = "https://unboundfolk.store";
+const CANONICAL = "https://unboundfolk.com";
 const OG_IMAGE = `${CANONICAL}/og-image.jpg`;
 
 export const metadata: Metadata = {
@@ -87,24 +87,24 @@ const jsonLd = {
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://unboundfolk.store/#website",
-      "url": "https://unboundfolk.store",
+      "@id": "https://unboundfolk.com/#website",
+      "url": "https://unboundfolk.com",
       "name": "Unbound Folk",
       "description": "AI-powered product photography for e-commerce brands.",
       "potentialAction": {
         "@type": "SearchAction",
-        "target": "https://unboundfolk.store/?s={search_term_string}",
+        "target": "https://unboundfolk.com/?s={search_term_string}",
         "query-input": "required name=search_term_string",
       },
     },
     {
       "@type": "Organization",
-      "@id": "https://unboundfolk.store/#organization",
+      "@id": "https://unboundfolk.com/#organization",
       "name": "Unbound Folk",
-      "url": "https://unboundfolk.store",
+      "url": "https://unboundfolk.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://unboundfolk.store/uf-logo.svg",
+        "url": "https://unboundfolk.com/uf-logo.svg",
       },
       "contactPoint": {
         "@type": "ContactPoint",
@@ -117,11 +117,11 @@ const jsonLd = {
     },
     {
       "@type": "SoftwareApplication",
-      "@id": "https://unboundfolk.store/#app",
+      "@id": "https://unboundfolk.com/#app",
       "name": "Unbound Folk AI Product Photography",
       "applicationCategory": "BusinessApplication",
       "operatingSystem": "Web",
-      "url": "https://unboundfolk.store",
+      "url": "https://unboundfolk.com",
       "description":
         "AI-powered platform that turns any product photo into studio-quality images — white-bg, lifestyle, and ad-ready — in under 5 minutes.",
       "offers": {
@@ -130,7 +130,7 @@ const jsonLd = {
         "priceCurrency": "MYR",
         "description": "First 10 images free, no credit card required.",
       },
-      "provider": { "@id": "https://unboundfolk.store/#organization" },
+      "provider": { "@id": "https://unboundfolk.com/#organization" },
     },
   ],
 };
