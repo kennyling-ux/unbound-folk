@@ -276,12 +276,12 @@ export default function Page() {
           transition={{ duration: 0.6, ease: expo }}
           className="w-full max-w-6xl flex items-center justify-between bg-card/95 backdrop-blur-xl border border-border rounded-2xl px-6 py-3 shadow-sm"
         >
-          <div className="flex items-center gap-2.5">
+          <a href="#" className="flex items-center gap-2.5">
             <img src="/uf-logo.svg" alt="Unbound Folk" className="w-8 h-8 rounded-md" />
             <span className="font-bold text-base tracking-tight text-foreground">
               Unbound <span className="text-brand">Folk</span>
             </span>
-          </div>
+          </a>
 
           <nav className="hidden md:flex items-center gap-7">
             {NAV.map((l) => (
