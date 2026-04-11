@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence, useInView, useReducedMotion } from "framer-motion";
 import {
   ArrowUpRight, ArrowRight, Sparkles, Zap, Shield, Star,
   ChevronLeft, ChevronRight, Menu, X, Check, Quote, Play,
@@ -123,6 +123,17 @@ const STATS = [
 /* ─── helpers ─── */
 const expo = [0.16, 1, 0.3, 1] as const;
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
+
 function FadeUp({
   children,
   delay = 0,
@@ -135,13 +146,15 @@ function FadeUp({
   style?: React.CSSProperties;
 }) {
   const ref = useRef(null);
+  const isMobile = useIsMobile();
   const inView = useInView(ref, { once: true, margin: "-60px" });
+  // On mobile skip y-transform, just fade — cheaper
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: isMobile ? 0 : 28 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.72, ease: expo, delay }}
+      transition={{ duration: isMobile ? 0.4 : 0.72, ease: expo, delay: isMobile ? 0 : delay }}
       className={className}
       style={style}
     >
@@ -250,12 +263,15 @@ export default function Page() {
       setFormState("error");
     }
   };
+  const isMobile = useIsMobile();
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
   });
-  const heroY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  const heroYRaw = useTransform(scrollYProgress, [0, 1], [0, 60]);
+  // Disable parallax on mobile — scroll listeners + transforms are expensive on low-end devices
+  const heroY = isMobile ? 0 : heroYRaw;
 
   useEffect(() => {
     const id = setInterval(
@@ -274,7 +290,7 @@ export default function Page() {
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: expo }}
-          className="w-full max-w-6xl flex items-center justify-between bg-card/95 backdrop-blur-xl border border-border rounded-2xl px-6 py-3 shadow-sm"
+          className="w-full max-w-6xl flex items-center justify-between bg-card/95 backdrop-blur-md border border-border rounded-2xl px-6 py-3 shadow-sm"
         >
           <a href="#" className="flex items-center gap-2.5">
             <img src="/uf-logo.svg" alt="Unbound Folk" className="w-8 h-8 rounded-md" />
@@ -410,7 +426,7 @@ export default function Page() {
               style={{
                 background: "linear-gradient(270deg, #01171e, #0a3a2a, #143d14, #01171e)",
                 backgroundSize: "300% 300%",
-                animation: "gradient-shift 4s ease infinite",
+                animation: isMobile ? "none" : "gradient-shift 4s ease infinite",
                 color: "#f2f2f2",
                 boxShadow: "0 0 0 1px rgba(167,234,21,0.3), 0 4px 24px -4px rgba(167,234,21,0.35)",
               }}
@@ -729,11 +745,11 @@ export default function Page() {
                 style={{
                   background: "linear-gradient(270deg, #01171e, #0a3a2a, #143d14, #01171e)",
                   backgroundSize: "300% 300%",
-                  animation: "gradient-shift 4s ease infinite",
+                  animation: isMobile ? "none" : "gradient-shift 4s ease infinite",
                   color: "#f2f2f2",
                   boxShadow: "0 0 0 1px rgba(167,234,21,0.3), 0 8px 32px -4px rgba(167,234,21,0.5)",
                 }}
-                animate={{ y: [0, -6, 0] }}
+                animate={isMobile ? {} : { y: [0, -6, 0] }}
                 transition={{
                   y: { duration: 1.8, repeat: Infinity, ease: "easeInOut" },
                 }}
@@ -921,7 +937,7 @@ export default function Page() {
               style={{
                 background: "linear-gradient(270deg, #01171e, #0a3a2a, #143d14, #01171e)",
                 backgroundSize: "300% 300%",
-                animation: "gradient-shift 4s ease infinite",
+                animation: isMobile ? "none" : "gradient-shift 4s ease infinite",
                 color: "#f2f2f2",
                 boxShadow: "0 0 0 1px rgba(167,234,21,0.3), 0 4px 24px -4px rgba(167,234,21,0.35)",
               }}
@@ -1113,7 +1129,7 @@ export default function Page() {
                     style={{
                       background: "linear-gradient(270deg, #01171e, #0a3a2a, #143d14, #01171e)",
                       backgroundSize: "300% 300%",
-                      animation: "gradient-shift 4s ease infinite",
+                      animation: isMobile ? "none" : "gradient-shift 4s ease infinite",
                       color: "#f2f2f2",
                       boxShadow: "0 0 0 1px rgba(167,234,21,0.3), 0 4px 24px -4px rgba(167,234,21,0.35)",
                     }}
@@ -1406,7 +1422,7 @@ export default function Page() {
         style={{ background: "#25D366" }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.93 }}
-        animate={{ y: [0, -5, 0] }}
+        animate={isMobile ? {} : { y: [0, -5, 0] }}
         transition={{ y: { duration: 2.5, repeat: Infinity, ease: "easeInOut" } }}
         aria-label="Chat on WhatsApp"
       >
