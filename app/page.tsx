@@ -297,7 +297,7 @@ export default function Page() {
           </nav>
 
           <motion.a
-            href="https://unboundfolk.com/"
+            href="https://unboundfolk.store/"
             className="hidden md:flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-semibold"
             whileHover={{ scale: 1.04, opacity: 0.88 }}
             whileTap={{ scale: 0.96 }}
@@ -333,7 +333,7 @@ export default function Page() {
                 </a>
               ))}
               <a
-                href="https://unboundfolk.com/"
+                href="https://unboundfolk.store/"
                 className="block text-center px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold mt-2"
               >
                 Get Started
@@ -405,7 +405,7 @@ export default function Page() {
             className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-16"
           >
             <motion.a
-              href="https://unboundfolk.com/"
+              href="https://unboundfolk.store/"
               className="group flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-sm"
               style={{
                 background: "linear-gradient(270deg, #01171e, #0a3a2a, #143d14, #01171e)",
@@ -724,7 +724,7 @@ export default function Page() {
                 </p>
               </div>
               <motion.a
-                href="https://unboundfolk.com/"
+                href="https://unboundfolk.store/"
                 className="flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-sm whitespace-nowrap flex-shrink-0"
                 style={{
                   background: "linear-gradient(270deg, #01171e, #0a3a2a, #143d14, #01171e)",
@@ -916,7 +916,7 @@ export default function Page() {
 
           <FadeUp className="mt-8 text-center">
             <motion.a
-              href="https://unboundfolk.com/"
+              href="https://unboundfolk.store/"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm"
               style={{
                 background: "linear-gradient(270deg, #01171e, #0a3a2a, #143d14, #01171e)",
@@ -1108,7 +1108,7 @@ export default function Page() {
                 {/* CTA button — centred, full-width on mobile, auto on desktop */}
                 <div className="flex justify-center mb-5">
                   <motion.a
-                    href="https://unboundfolk.com/"
+                    href="https://unboundfolk.store/"
                     className="flex items-center gap-2.5 px-10 py-4 rounded-2xl font-semibold text-base"
                     style={{
                       background: "linear-gradient(270deg, #01171e, #0a3a2a, #143d14, #01171e)",
