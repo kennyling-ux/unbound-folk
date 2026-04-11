@@ -1399,7 +1399,7 @@ export default function Page() {
 
       {/* ── FLOATING WHATSAPP BUTTON ── */}
       <motion.a
-        href="https://wa.me/60189865212?text=Hi%20Unbound%20Folk!%20I'm%20interested%20in%20your%20AI%20product%20photography%20service."
+        href="https://wa.me/60189865212"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-[90] flex items-center justify-center w-14 h-14 rounded-full shadow-2xl"
