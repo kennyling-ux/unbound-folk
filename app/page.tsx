@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, AnimatePresence, useInView } from "fra
 import {
   ArrowUpRight, ArrowRight, Sparkles, Zap, Shield, Star,
   ChevronLeft, ChevronRight, Menu, X, Check, Quote, Play,
-  Camera, Image as ImageIcon, Layers, BarChart2
+  Camera, Image as ImageIcon, Layers, BarChart2, MessageCircle
 } from "lucide-react";
 
 /* ─── constants ─── */
@@ -221,6 +221,7 @@ export default function Page() {
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [formData, setFormData] = useState({ firstName: "", lastName: "", email: "", topic: "General inquiry", message: "" });
   const [formState, setFormState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [activeModal, setActiveModal] = useState<"Privacy" | "Terms" | "Status" | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -1292,14 +1293,127 @@ export default function Page() {
             © 2026 Unbound Folk. All rights reserved. Built for businesses that move fast.
           </p>
           <div className="flex gap-5">
-            {["Privacy", "Terms", "Status"].map((l) => (
-              <a key={l} href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors font-medium">
+            {(["Privacy", "Terms", "Status"] as const).map((l) => (
+              <button
+                key={l}
+                onClick={() => setActiveModal(l)}
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors font-medium"
+              >
                 {l}
-              </a>
+              </button>
             ))}
           </div>
         </div>
       </footer>
+
+      {/* ── MODAL ── */}
+      <AnimatePresence>
+        {activeModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)" }}
+            onClick={() => setActiveModal(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: 16 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-lg max-h-[80vh] overflow-y-auto rounded-3xl border border-border p-8"
+              style={{ background: "var(--background)" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setActiveModal(null)}
+                className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-border transition-all"
+              >
+                <X size={15} />
+              </button>
+
+              {activeModal === "Privacy" && (
+                <div className="space-y-4">
+                  <h2 className="text-xl font-bold tracking-tight">Privacy Policy</h2>
+                  <p className="text-xs text-muted-foreground">Last updated: April 2026</p>
+                  <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
+                    <p><strong className="text-foreground">1. Information We Collect</strong><br />We collect information you provide directly — such as your name, email address, and any messages sent through our contact form. We also collect usage data automatically, including device type, browser, and pages visited.</p>
+                    <p><strong className="text-foreground">2. How We Use Your Information</strong><br />Your data is used solely to provide and improve our services, respond to enquiries, and send relevant product updates. We never sell your personal information to third parties.</p>
+                    <p><strong className="text-foreground">3. Data Storage</strong><br />Your data is stored securely on servers located in Singapore and is protected with industry-standard encryption. We retain your data only as long as necessary to deliver our services.</p>
+                    <p><strong className="text-foreground">4. Cookies</strong><br />We use essential cookies to keep our platform running smoothly and analytics cookies (anonymous) to understand how users interact with the site. You may disable cookies in your browser settings at any time.</p>
+                    <p><strong className="text-foreground">5. Your Rights</strong><br />You have the right to access, correct, or delete your personal data at any time. To submit a request, email us at <span className="text-foreground font-medium">hello@unboundfolk.com</span>.</p>
+                    <p><strong className="text-foreground">6. Contact</strong><br />For privacy-related enquiries, reach us at hello@unboundfolk.com or +60 18-986 5212.</p>
+                  </div>
+                </div>
+              )}
+
+              {activeModal === "Terms" && (
+                <div className="space-y-4">
+                  <h2 className="text-xl font-bold tracking-tight">Terms of Service</h2>
+                  <p className="text-xs text-muted-foreground">Last updated: April 2026</p>
+                  <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
+                    <p><strong className="text-foreground">1. Acceptance</strong><br />By using Unbound Folk, you agree to these terms. If you do not agree, please do not use our platform.</p>
+                    <p><strong className="text-foreground">2. Use of Service</strong><br />Unbound Folk provides AI-powered product photography tools for commercial use. You may use the platform only for lawful purposes and in accordance with these terms.</p>
+                    <p><strong className="text-foreground">3. Account Responsibility</strong><br />You are responsible for maintaining the confidentiality of your account credentials and for all activity that occurs under your account.</p>
+                    <p><strong className="text-foreground">4. Intellectual Property</strong><br />Images generated using your product photos remain your property. Unbound Folk retains rights to the underlying AI models and platform technology.</p>
+                    <p><strong className="text-foreground">5. Free Trial</strong><br />New users receive 10 complimentary image generations. After the free trial, continued use requires a paid subscription plan.</p>
+                    <p><strong className="text-foreground">6. Limitation of Liability</strong><br />Unbound Folk is provided "as is." We are not liable for any indirect, incidental, or consequential damages arising from your use of the platform.</p>
+                    <p><strong className="text-foreground">7. Changes to Terms</strong><br />We may update these terms from time to time. Continued use of the platform after changes constitutes acceptance of the new terms.</p>
+                  </div>
+                </div>
+              )}
+
+              {activeModal === "Status" && (
+                <div className="space-y-5">
+                  <h2 className="text-xl font-bold tracking-tight">System Status</h2>
+                  <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl" style={{ background: "oklch(0.82 0.22 128 / 10%)", border: "1px solid oklch(0.82 0.22 128 / 20%)" }}>
+                    <span className="w-2 h-2 rounded-full bg-[#a7ea15] animate-pulse" />
+                    <span className="text-sm font-semibold text-foreground">All systems operational</span>
+                  </div>
+                  <div className="space-y-2">
+                    {[
+                      { name: "AI Image Generation", status: "Operational", ok: true },
+                      { name: "Web Platform", status: "Operational", ok: true },
+                      { name: "Image Export & Download", status: "Operational", ok: true },
+                      { name: "User Authentication", status: "Operational", ok: true },
+                      { name: "Payment Processing", status: "Operational", ok: true },
+                      { name: "Email Notifications", status: "Operational", ok: true },
+                    ].map((s) => (
+                      <div key={s.name} className="flex items-center justify-between py-2.5 border-b border-border last:border-0">
+                        <span className="text-sm text-foreground font-medium">{s.name}</span>
+                        <span className={`text-xs font-semibold flex items-center gap-1.5 ${s.ok ? "text-[#a7ea15]" : "text-red-400"}`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${s.ok ? "bg-[#a7ea15]" : "bg-red-400"}`} />
+                          {s.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-muted-foreground">Last checked: {new Date().toLocaleDateString("en-MY", { day: "numeric", month: "long", year: "numeric" })} · For real-time updates, contact hello@unboundfolk.com</p>
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── FLOATING WHATSAPP BUTTON ── */}
+      <motion.a
+        href="https://wa.me/60189865212?text=Hi%20Unbound%20Folk!%20I'm%20interested%20in%20your%20AI%20product%20photography%20service."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-[90] flex items-center justify-center w-14 h-14 rounded-full shadow-2xl"
+        style={{ background: "#25D366" }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.93 }}
+        animate={{ y: [0, -5, 0] }}
+        transition={{ y: { duration: 2.5, repeat: Infinity, ease: "easeInOut" } }}
+        aria-label="Chat on WhatsApp"
+      >
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </motion.a>
     </div>
   );
 }
