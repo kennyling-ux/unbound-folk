@@ -391,31 +391,103 @@ function HeroVisual() {
   );
 }
 
+function HeroSection() {
+  const reduce = useReducedMotion();
+  const badges = [
+    { label: "Creative", icon: Palette, pos: "top-[22%] left-[6%]" },
+    { label: "AI", icon: BrainCircuit, pos: "top-[12%] right-[10%]" },
+    { label: "Automation", icon: Workflow, pos: "bottom-[30%] left-[8%]" },
+    { label: "Systems", icon: MonitorCog, pos: "bottom-[16%] right-[6%]" },
+  ];
+  return (
+    <section className="relative overflow-hidden lg:flex lg:min-h-[100dvh]">
+      {/* Text panel */}
+      <motion.div
+        initial={reduce ? false : { opacity: 0, y: 28 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: pageEase }}
+        className="relative z-10 flex flex-col justify-center px-5 pb-12 pt-28 sm:px-8 lg:w-[56%] lg:pb-20 lg:pl-10 lg:pr-12 lg:pt-0 xl:pl-14"
+      >
+        <p className="mb-6 inline-flex w-fit rounded-full border border-lime-300/25 bg-lime-300/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-lime-200">
+          Creative studio + systems partner
+        </p>
+        <h1 className="text-5xl font-bold leading-[0.92] tracking-tighter text-white sm:text-6xl lg:text-7xl xl:text-[5.25rem]">
+          Look the Part.<br />Run Like One.
+        </h1>
+        <p className="mt-6 max-w-md text-lg leading-8 text-slate-300">
+          Unbound Folk is a creative-tech studio in Malaysia. We make brands look sharp and help businesses run better — through design, AI, and custom-built systems.
+        </p>
+        <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <ButtonLink href="/contact">Book a Discovery Call <ArrowRight size={16} /></ButtonLink>
+          <ButtonLink href="/work" variant="secondary">View Our Work <Play size={15} /></ButtonLink>
+        </div>
+        {/* Mini stats */}
+        <div className="mt-12 grid grid-cols-3 gap-4 border-t border-white/10 pt-8">
+          {[
+            { v: "Creative", l: "Visual content & brand" },
+            { v: "Systems", l: "Custom software & AI" },
+            { v: "Malaysia", l: "Studio based in KL" },
+          ].map(({ v, l }) => (
+            <div key={v}>
+              <p className="text-base font-bold text-white">{v}</p>
+              <p className="mt-1 text-xs leading-4 text-slate-500">{l}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Mobile image */}
+      <motion.div
+        initial={reduce ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, ease: pageEase, delay: 0.2 }}
+        className="relative h-64 w-full overflow-hidden lg:hidden"
+      >
+        <Image src="/12.jpg" alt="Unbound Folk creative work" fill sizes="100vw" className="object-cover" priority />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#05070a] via-[#05070a]/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#05070a]/40 to-transparent" />
+      </motion.div>
+
+      {/* Desktop right image panel */}
+      <motion.div
+        initial={reduce ? false : { opacity: 0, scale: 1.04 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.1, ease: pageEase, delay: 0.05 }}
+        className="absolute inset-y-0 right-0 hidden w-[46%] overflow-hidden lg:block"
+      >
+        <Image src="/12.jpg" alt="Unbound Folk creative work" fill sizes="46vw" className="object-cover" priority />
+        {/* Left edge blend into dark background */}
+        <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-[#05070a] to-transparent" />
+        {/* Top/bottom vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#05070a]/65 via-transparent to-[#05070a]/25" />
+        {/* Floating category badges */}
+        {badges.map((b, i) => {
+          const Icon = b.icon;
+          return (
+            <motion.div
+              key={b.label}
+              animate={reduce ? undefined : { y: [0, i % 2 ? 10 : -10, 0] }}
+              transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut" }}
+              className={cx(
+                "absolute flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-950/80 px-4 py-3 text-sm font-semibold shadow-2xl backdrop-blur-md",
+                b.pos
+              )}
+            >
+              <Icon size={16} className="text-lime-300" />
+              {b.label}
+            </motion.div>
+          );
+        })}
+      </motion.div>
+    </section>
+  );
+}
+
 export function HomePage() {
   return (
     <SiteShell>
       <main>
-        <section className="relative px-5 pb-16 pt-32 sm:px-6 lg:px-8 lg:pb-24 lg:pt-40">
-          <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
-            <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: pageEase }}>
-              <p className="mb-5 inline-flex rounded-full border border-lime-300/25 bg-lime-300/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-lime-200">
-                Creative studio + systems partner
-              </p>
-              <h1 className="max-w-4xl text-5xl font-bold leading-[0.94] tracking-tighter text-white sm:text-6xl lg:text-7xl">
-                Your Brand Deserves to Look the Part. Your Business Deserves to Run Like One.
-              </h1>
-              <p className="mt-7 max-w-xl text-lg leading-8 text-slate-300">
-                Unbound Folk is a creative-tech studio in Malaysia. We make brands look sharp and help businesses run better — through design, AI, and custom-built systems.
-              </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/contact">Book a Discovery Call <ArrowRight size={16} /></ButtonLink>
-                <ButtonLink href="/work" variant="secondary">View Our Work <Play size={15} /></ButtonLink>
-              </div>
-            </motion.div>
-            <HeroVisual />
-          </div>
-        </section>
-
+        <HeroSection />
         <TrustSection />
         <ProblemSection />
         <PillarsSection />
@@ -661,16 +733,20 @@ function CTASection({ title = "Ready to Stop Leaving Growth on the Table?", copy
 
 function CaseCard({ item }: { item: (typeof workItems)[number] }) {
   return (
-    <Reveal className="group overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.05]">
-      <div className="relative h-56 overflow-hidden">
+    <Reveal className="group overflow-hidden rounded-[1.5rem] border border-white/10">
+      <div className="relative h-52 overflow-hidden">
         <Image src={item.image} alt={`${item.title} case study`} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition duration-700 group-hover:scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
         <span className="absolute left-4 top-4 rounded-full bg-lime-300 px-3 py-1 text-xs font-bold text-slate-950">{item.category}</span>
+        <div className="absolute bottom-0 left-0 right-0 p-5">
+          <h3 className="text-base font-bold text-white">{item.title}</h3>
+        </div>
       </div>
-      <div className="p-6">
-        <h3 className="text-xl font-semibold text-white">{item.title}</h3>
-        <p className="mt-3 text-sm leading-6 text-slate-300">{item.outcome}</p>
-        <Link href="/work" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-lime-200">View Project <ArrowUpRight size={14} /></Link>
+      <div className="border-t border-white/8 bg-white/[0.04] px-5 py-4">
+        <p className="text-sm leading-5 text-slate-400">{item.outcome}</p>
+        <Link href="/work" className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-lime-300 transition hover:gap-2.5">
+          View Project <ArrowUpRight size={12} />
+        </Link>
       </div>
     </Reveal>
   );
@@ -828,21 +904,35 @@ export function WorkPage() {
           </div>
           <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((item) => (
-              <Reveal key={item.title} className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.05]">
-                <div className="relative h-52">
-                  <Image src={item.image} alt={`${item.title} visual placeholder`} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent" />
+              <Reveal key={item.title} className="group overflow-hidden rounded-[1.5rem] border border-white/10">
+                {/* Full-bleed image with title overlay */}
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image src={item.image} alt={`${item.title}`} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+                  <span className="absolute left-4 top-4 rounded-full bg-lime-300 px-3 py-1 text-xs font-bold text-slate-950">{item.category}</span>
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    <h2 className="text-xl font-bold text-white">{item.title}</h2>
+                  </div>
                 </div>
-                <div className="p-6">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-lime-200">{item.category}</p>
-                  <h2 className="mt-3 text-xl font-semibold text-white">{item.title}</h2>
-                  <p className="mt-4 text-sm font-semibold text-white">Problem</p>
-                  <p className="mt-1 text-sm leading-6 text-slate-300">{item.problem}</p>
-                  <p className="mt-4 text-sm font-semibold text-white">Solution</p>
-                  <p className="mt-1 text-sm leading-6 text-slate-300">{item.solution}</p>
-                  <p className="mt-4 text-sm font-semibold text-white">Outcome</p>
-                  <p className="mt-1 text-sm leading-6 text-slate-300">{item.outcome}</p>
-                  <Link href="/contact" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-lime-200">View Project <ArrowUpRight size={14} /></Link>
+                {/* Case study text */}
+                <div className="border-t border-white/8 bg-white/[0.04] p-5">
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-lime-300/70">The situation</p>
+                      <p className="mt-1.5 text-sm leading-6 text-slate-300">{item.problem}</p>
+                    </div>
+                    <div className="border-t border-white/8 pt-3">
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-lime-300/70">What we built</p>
+                      <p className="mt-1.5 text-sm leading-6 text-slate-300">{item.solution}</p>
+                    </div>
+                    <div className="border-t border-white/8 pt-3">
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-lime-300/70">The result</p>
+                      <p className="mt-1.5 text-sm leading-6 text-slate-300">{item.outcome}</p>
+                    </div>
+                  </div>
+                  <Link href="/contact" className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-lime-300 transition hover:gap-2.5">
+                    Discuss a similar project <ArrowUpRight size={12} />
+                  </Link>
                 </div>
               </Reveal>
             ))}
