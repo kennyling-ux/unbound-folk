@@ -157,7 +157,7 @@ function Section({
         {(eyebrow || title || copy) && (
           <Reveal className="mb-10 max-w-3xl">
             {eyebrow && <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-lime-300">{eyebrow}</p>}
-            {title && <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-5xl">{title}</h2>}
+            {title && <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl">{title}</h2>}
             {copy && <p className="mt-5 text-base leading-7 text-slate-300 sm:text-lg">{copy}</p>}
           </Reveal>
         )}
@@ -322,6 +322,16 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
           "radial-gradient(circle at 20% 0%, rgba(190, 242, 100, 0.18), transparent 28%), radial-gradient(circle at 80% 10%, rgba(56, 189, 248, 0.14), transparent 26%), radial-gradient(circle at 50% 45%, rgba(244, 114, 182, 0.08), transparent 30%), #05070a",
       }}
     >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-[60] select-none"
+        style={{
+          opacity: 0.04,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")`,
+          backgroundRepeat: "repeat",
+          backgroundSize: "200px 200px",
+        }}
+      />
       <SiteHeader />
       {children}
       <Footer />
@@ -391,10 +401,10 @@ export function HomePage() {
               <p className="mb-5 inline-flex rounded-full border border-lime-300/25 bg-lime-300/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.22em] text-lime-200">
                 Creative studio + systems partner
               </p>
-              <h1 className="max-w-4xl text-5xl font-semibold leading-[0.96] tracking-tight text-white sm:text-6xl lg:text-7xl">
+              <h1 className="max-w-4xl text-5xl font-bold leading-[0.94] tracking-tighter text-white sm:text-6xl lg:text-7xl">
                 Your Brand Deserves to Look the Part. Your Business Deserves to Run Like One.
               </h1>
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
+              <p className="mt-7 max-w-xl text-lg leading-8 text-slate-300">
                 Unbound Folk is a creative-tech studio in Malaysia. We make brands look sharp and help businesses run better — through design, AI, and custom-built systems.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -420,18 +430,25 @@ export function HomePage() {
 }
 
 function TrustSection() {
-  const logos = ["Founders", "SME Teams", "E-commerce", "Service Brands", "Ops Teams", "Creative Leads"];
+  const items = [
+    "Founders", "SME Teams", "E-commerce Brands", "Service Companies",
+    "Operations Teams", "Creative Leads", "Product Studios", "Growing Businesses",
+  ];
+  const doubled = [...items, ...items];
   return (
-    <section className="border-y border-white/10 bg-white/[0.03] px-5 py-8 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <p className="mb-5 max-w-3xl text-sm text-slate-300">
-          We work with founders, SMEs, and growing teams who know what they want — they just need the right people to build it.
-        </p>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          {logos.map((logo) => (
-            <div key={logo} className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-center text-sm font-semibold text-slate-300">
-              {logo}
-            </div>
+    <section className="overflow-hidden border-y border-white/10 bg-white/[0.02] py-5">
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-[#05070a] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-[#05070a] to-transparent" />
+        <div
+          className="flex whitespace-nowrap"
+          style={{ animation: "marquee 32s linear infinite" }}
+        >
+          {doubled.map((item, i) => (
+            <span key={i} className="mx-6 shrink-0 text-sm font-semibold tracking-wide text-slate-400">
+              {item}
+              <span className="ml-6 text-white/20">·</span>
+            </span>
           ))}
         </div>
       </div>
@@ -442,7 +459,6 @@ function TrustSection() {
 function ProblemSection() {
   return (
     <Section
-      eyebrow="The real problem"
       title="Most Businesses Are Losing on Two Fronts at Once."
       copy="Externally, your brand isn't making the impression it should. Internally, your team is burning time on things that should be automatic. Both problems are fixable — and they're more connected than you think."
     >
@@ -489,20 +505,20 @@ function PillarsSection() {
 function ServicePillar({ icon, title, description, services, href, image }: { icon: React.ReactNode; title: string; description: string; services: string[]; href: string; image: string }) {
   return (
     <Reveal className="group overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.05] shadow-2xl shadow-black/20">
-      <div className="relative h-60 overflow-hidden">
+      <div className="relative h-72 overflow-hidden">
         <Image src={image} alt={`${title} by Unbound Folk`} fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover transition duration-700 group-hover:scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+        <div className="absolute bottom-6 left-7 flex h-11 w-11 items-center justify-center rounded-xl bg-lime-300 text-slate-950">{icon}</div>
       </div>
       <div className="p-7">
-        <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-lime-300 text-slate-950">{icon}</div>
-        <h3 className="text-2xl font-semibold text-white">{title}</h3>
+        <h3 className="text-2xl font-bold text-white">{title}</h3>
         <p className="mt-3 leading-7 text-slate-300">{description}</p>
         <div className="mt-6 flex flex-wrap gap-2">
           {services.map((service) => (
-            <span key={service} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold text-slate-300">{service}</span>
+            <span key={service} className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-semibold text-slate-400">{service}</span>
           ))}
         </div>
-        <Link href={href} className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-lime-200">
+        <Link href={href} className="mt-7 inline-flex items-center gap-2 text-sm font-bold text-lime-300 transition hover:gap-3">
           Explore {title} <ArrowRight size={15} />
         </Link>
       </div>
@@ -512,53 +528,96 @@ function ServicePillar({ icon, title, description, services, href, image }: { ic
 
 function WhySection() {
   const points = [
-    "We think about brand and operations together, not separately",
+    "We think about brand and operations together, not in silos",
     "We build for the outcome, not to show off the tech",
     "We move fast without cutting corners on quality",
     "We use AI where it genuinely helps — and skip it where it doesn't",
-    "We communicate clearly and don't disappear mid-project",
+    "We stay communicative and don't disappear mid-project",
   ];
   return (
-    <Section eyebrow="Why Unbound Folk" title="We're Built Differently on Purpose.">
-      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
-        {points.map((point, index) => (
-          <Reveal key={point} delay={index * 0.04} className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">
-            <Check className="mb-5 text-lime-200" size={20} />
-            <p className="text-sm font-semibold leading-6 text-white">{point}</p>
+    <section className="relative px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-12 lg:grid-cols-2 lg:gap-20">
+          <Reveal>
+            <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl">
+              We're Built<br />Differently<br />on Purpose.
+            </h2>
+            <p className="mt-6 max-w-md text-base leading-7 text-slate-300">
+              A lot of studios do creative or tech. We do both — and that's not an accident. It's how we're designed to work.
+            </p>
           </Reveal>
-        ))}
+          <div>
+            {points.map((point, i) => (
+              <Reveal
+                key={point}
+                delay={i * 0.04}
+                className={cx("flex items-start gap-5 py-5", i < points.length - 1 && "border-b border-white/10")}
+              >
+                <Check className="mt-0.5 shrink-0 text-lime-300" size={17} />
+                <p className="text-base font-medium leading-7 text-white">{point}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
 function ProcessSection() {
   const steps = [
-    ["Discover", "We spend real time understanding your business — your goals, your blockers, and what good would actually look like."],
-    ["Define", "We scope the right solution together. No guesswork, no overselling. Just clarity on what we're building and why."],
-    ["Build", "We design, develop, and deliver. You're kept in the loop throughout — no black boxes, no surprises."],
-    ["Refine", "After launch, we improve based on what we see. Good work doesn't stop at handoff."],
+    ["01", "Discover", "We spend real time understanding your business — your goals, your blockers, and what good would actually look like."],
+    ["02", "Define", "We scope the right solution together. No guesswork, no overselling. Just clarity on what we're building and why."],
+    ["03", "Build", "We design, develop, and deliver. You're kept in the loop throughout — no black boxes, no surprises."],
+    ["04", "Refine", "After launch, we improve based on what we see. Good work doesn't stop at handoff."],
   ];
   return (
-    <Section eyebrow="How it works" title="Simple Process. No Runaround.">
-      <div className="grid gap-4 lg:grid-cols-4">
-        {steps.map(([title, copy], index) => (
-          <Reveal key={title} className="rounded-3xl border border-white/10 bg-slate-950/60 p-6">
-            <span className="text-sm font-bold text-lime-200">{String(index + 1).padStart(2, "0")}</span>
-            <h3 className="mt-8 text-xl font-semibold text-white">{title}</h3>
-            <p className="mt-3 text-sm leading-6 text-slate-300">{copy}</p>
-          </Reveal>
-        ))}
+    <section className="relative px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+        <Reveal className="mb-14 max-w-2xl">
+          <h2 className="text-3xl font-bold tracking-tighter text-white sm:text-5xl">Simple Process. No Runaround.</h2>
+        </Reveal>
+        <div>
+          {steps.map(([num, title, copy], i) => (
+            <Reveal
+              key={title}
+              delay={i * 0.05}
+              className="grid items-start gap-y-2 border-t border-white/10 py-8 sm:grid-cols-[64px_1fr] sm:gap-x-6 md:grid-cols-[64px_200px_1fr] md:items-center md:gap-x-10"
+            >
+              <span className="font-mono text-sm font-bold tabular-nums text-lime-300/60">{num}</span>
+              <h3 className="text-lg font-semibold text-white">{title}</h3>
+              <p className="text-slate-300 leading-7 sm:col-start-2 md:col-start-auto">{copy}</p>
+            </Reveal>
+          ))}
+          <div className="border-t border-white/10" />
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }
 
 function WorkPreview() {
+  const [featured, ...rest] = workItems.slice(0, 3);
   return (
     <Section eyebrow="Selected work" title="A Few Things We're Proud Of">
-      <div className="grid gap-5 md:grid-cols-3">
-        {workItems.slice(0, 3).map((item) => <CaseCard key={item.title} item={item} />)}
+      <div className="grid gap-5 lg:grid-cols-3">
+        <Reveal className="group overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.05] lg:col-span-2">
+          <div className="relative h-72 overflow-hidden">
+            <Image src={featured.image} alt={`${featured.title} case study`} fill sizes="(max-width: 1024px) 100vw, 66vw" className="object-cover transition duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent" />
+            <span className="absolute left-4 top-4 rounded-full bg-lime-300 px-3 py-1 text-xs font-bold text-slate-950">{featured.category}</span>
+          </div>
+          <div className="p-7">
+            <h3 className="text-2xl font-bold text-white">{featured.title}</h3>
+            <p className="mt-3 leading-7 text-slate-300">{featured.outcome}</p>
+            <Link href="/work" className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-lime-300 transition hover:gap-3">
+              View Project <ArrowUpRight size={14} />
+            </Link>
+          </div>
+        </Reveal>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-1">
+          {rest.map((item) => <CaseCard key={item.title} item={item} />)}
+        </div>
       </div>
     </Section>
   );
@@ -566,15 +625,15 @@ function WorkPreview() {
 
 function FAQSection({ items = faqs }: { items?: typeof faqs }) {
   return (
-    <Section eyebrow="FAQ" title="Questions We Get Asked a Lot" className="py-16 lg:py-20">
-      <div className="grid gap-3">
+    <Section title="Questions We Get Asked a Lot" className="py-16 lg:py-20">
+      <div>
         {items.map((item) => (
-          <details key={item.q} className="group rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+          <details key={item.q} className="group border-t border-white/10 py-6 last-of-type:border-b">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-white">
               {item.q}
-              <ChevronDown className="shrink-0 text-lime-200 transition group-open:rotate-180" size={18} />
+              <ChevronDown className="shrink-0 text-lime-300 transition-transform duration-300 group-open:rotate-180" size={18} />
             </summary>
-            <p className="mt-4 leading-7 text-slate-300">{item.a}</p>
+            <p className="mt-5 max-w-3xl leading-7 text-slate-300">{item.a}</p>
           </details>
         ))}
       </div>
@@ -588,8 +647,7 @@ function CTASection({ title = "Ready to Stop Leaving Growth on the Table?", copy
       <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-lime-300/20 bg-lime-300 p-8 text-slate-950 shadow-[0_30px_120px_rgba(190,242,100,0.18)] sm:p-12">
         <div className="grid items-center gap-8 lg:grid-cols-[1fr_auto]">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.24em]">Next step</p>
-            <h2 className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">{title}</h2>
+            <h2 className="max-w-3xl text-3xl font-bold tracking-tighter sm:text-5xl">{title}</h2>
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-800">{copy}</p>
           </div>
           <Link href="/contact" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-slate-950 px-6 text-sm font-bold text-white">
@@ -707,7 +765,7 @@ function SubPageHero({ eyebrow, title, copy, image, cta }: { eyebrow: string; ti
       <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1fr_0.82fr]">
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, ease: pageEase }}>
           <p className="mb-5 text-xs font-bold uppercase tracking-[0.24em] text-lime-200">{eyebrow}</p>
-          <h1 className="text-5xl font-semibold leading-[0.98] tracking-tight sm:text-6xl">{title}</h1>
+          <h1 className="text-5xl font-bold leading-[0.94] tracking-tighter sm:text-6xl">{title}</h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">{copy}</p>
           <div className="mt-9"><ButtonLink href="/contact">{cta} <ArrowRight size={16} /></ButtonLink></div>
         </motion.div>
@@ -723,10 +781,17 @@ function SubPageHero({ eyebrow, title, copy, image, cta }: { eyebrow: string; ti
 function FeatureGrid({ items }: { items: Array<[string, string, React.ComponentType<{ size?: number; className?: string }>]> }) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {items.map(([title, copy, Icon]) => (
-        <Reveal key={title} className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-          <Icon size={23} className="mb-7 text-lime-200" />
-          <h3 className="text-xl font-semibold text-white">{title}</h3>
+      {items.map(([title, copy, Icon], i) => (
+        <Reveal
+          key={title}
+          delay={i * 0.04}
+          className={cx(
+            "rounded-3xl border border-white/10 bg-white/[0.04] p-7",
+            i === 0 && "md:col-span-2 lg:col-span-1"
+          )}
+        >
+          <Icon size={22} className="mb-8 text-lime-300" />
+          <h3 className="text-xl font-bold text-white">{title}</h3>
           <p className="mt-3 text-sm leading-6 text-slate-300">{copy}</p>
         </Reveal>
       ))}
@@ -807,7 +872,7 @@ export function AboutPage() {
             ["Why clients stay", "We're honest about timelines and limitations. We communicate during the project, not just at the start and end. And we measure success by whether the thing we built actually works for you."],
           ].map(([title, copy]) => (
             <Reveal key={title} className="rounded-3xl border border-white/10 bg-white/[0.04] p-7">
-              <h2 className="text-2xl font-semibold text-white">{title}</h2>
+              <h2 className="text-2xl font-bold text-white">{title}</h2>
               <p className="mt-4 leading-7 text-slate-300">{copy}</p>
             </Reveal>
           ))}
@@ -856,7 +921,7 @@ export function ContactPage() {
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.82fr_1fr]">
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, ease: pageEase }}>
             <p className="mb-5 text-xs font-bold uppercase tracking-[0.24em] text-lime-200">Contact / Booking</p>
-            <h1 className="text-5xl font-semibold leading-[0.98] tracking-tight sm:text-6xl">Tell Us What's Not Working.</h1>
+            <h1 className="text-5xl font-bold leading-[0.94] tracking-tighter sm:text-6xl">Tell Us What's Not Working.</h1>
             <p className="mt-7 text-lg leading-8 text-slate-300">
               Whether it's how your brand looks, how your team operates, or both — fill in the form and we'll set up a call to talk it through properly.
             </p>
